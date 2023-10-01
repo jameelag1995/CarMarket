@@ -329,6 +329,79 @@ console.log(
 console.log("************************");
 
 /* -------------------------------------------------------------------------- */
+/*                               Car operations                               */
+/* -------------------------------------------------------------------------- */
+
+/* ---------------- Retrieve all cars available for purchase ---------------- */
+
+function getAllCars() {
+    const carsArr = [];
+    for (const agency of carMarket.sellers) {
+            for (const currBrand of agency.cars) {
+                for (let i = 0; i < currBrand.models.length; i++) {
+                    carsArr.push(currBrand.models[i]);
+                }
+            }
+        
+    }
+    return carsArr;
+}
+console.log('Testing get all cars: ',getAllCars);
+console.log("************************");
+
+/* --------------- Search for cars based on certain criteria. --------------- */
+
+function searchForCar(productionYear, price, brand) {
+    const foundCars = [];
+    for (const agency of carMarket.sellers) {
+        for (const currBrand of agency.cars) {
+            if (currBrand.brand === brand) {
+                for (let i = 0; i < currBrand.models.length; i++) {
+                    if (
+                        currBrand.models[i].year === productionYear &&
+                        currBrand.models[i].price <= price
+                    ) {
+                        foundCars.push(currBrand.models[i]);
+                    }
+                }
+            }
+        }
+    }
+    if(foundCars.length == 0){
+        return `no cars were found with these criteria`;
+    }
+    return foundCars;
+}
+console.log('Testing search for car: ');
+console.log('the car searched for: ',searchForCar(2020,35000,'bmw'));
+console.log("************************");
+
+/* ------------ Return the most expensive car available for sale ------------ */
+carMarket.getMostExpensiveCar = function (){
+    const cars = getAllCars();
+    const mostExpesnsiveCar = cars.reduce((maxCar, currentCar) => {
+        return currentCar.price > maxCar.price ? currentCar : maxCar;
+      }, cars[0]);
+      return mostExpesnsiveCar;
+
+}
+console.log('Testing most expensive car: ',carMarket.getMostExpensiveCar());
+console.log("************************");
+
+/* --------------- Return the cheapest car available for sale --------------- */
+carMarket.getCheapestCar = function (){
+    const cars = getAllCars();
+    const cheapestCar = cars.reduce((minCar, currentCar) => {
+        return currentCar.price < minCar.price ? currentCar : minCar;
+      }, cars[0]);
+
+      return cheapestCar;
+
+}
+console.log('Testing cheapest car: ',carMarket.getCheapestCar());
+console.log("************************");
+
+/* -------------------------------------------------------------------------- */
 /*                           Car Purchase Operations                          */
 /* -------------------------------------------------------------------------- */
 
