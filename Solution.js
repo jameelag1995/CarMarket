@@ -85,15 +85,14 @@ console.log("************************");
 
 /* ---------------- Remove a car from an agency's inventory. ---------------- */
 
-function removeCarFromAgencyInventory(agencyName, carNumber) {
+function removeCarFromAgencyInventory(agencyName, carNum) {
     for (const agency of carMarket.sellers) {
         if (agencyName === agency.agencyName) {
             for (const currBrand of agency.cars) {
-                for (let i = 0; i < currBrand.models.length; i++) {
-                    if (currBrand.models[i].carNumber === carNumber) {
-                        currBrand.models.splice(i, 1);
-                        return `Car removed from Inventory`;
-                    }
+                const index = currBrand.models.findIndex(car => car.carNumber === carNum);
+                if (index !== -1) {
+                    currBrand.models.splice(index, 1);
+                    return `Car removed from Inventory`;
                 }
             }
         }
@@ -104,7 +103,7 @@ function removeCarFromAgencyInventory(agencyName, carNumber) {
 // Test
 
 console.log("Testing remove car from agency inventory: ");
-console.log(removeCarFromAgencyInventory("Best Deal", "bmw", "4Ixb100"));
+console.log(removeCarFromAgencyInventory("Best Deal","4Ixb100"));
 console.log("************************");
 
 /* ---------------------- Change the cash of an agency. --------------------- */
@@ -346,7 +345,7 @@ function getAllCars() {
     }
     return carsArr;
 }
-console.log('Testing get all cars: ',getAllCars);
+console.log('Testing get all cars: ',getAllCars());
 console.log("************************");
 
 /* --------------- Search for cars based on certain criteria. --------------- */
@@ -373,7 +372,7 @@ function searchForCar(productionYear, price, brand) {
     return foundCars;
 }
 console.log('Testing search for car: ');
-console.log('the car searched for: ',searchForCar(2020,35000,'bmw'));
+console.log('the car searched for: ',searchForCar(2015,350000,'bmw'));
 console.log("************************");
 
 /* ------------ Return the most expensive car available for sale ------------ */
